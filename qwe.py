@@ -14,12 +14,14 @@ SCREEN_HEIGHT = 500
 GROUND_LEVEL = 370
 b1=load('background3.jpg')
 b2=load('background3.jpg')
+bullet=load('bullet1.png')
 flag=0
 chx=0
 chx1=0
 chx2=3000
 a=0
 b=3000
+bullet_flag=0
 class Player(pygame.sprite.Sprite):
     change_x = 0
     change_y = 0
@@ -105,7 +107,7 @@ passive_sprite_list = pygame.sprite.Group()
 passive_sprite_list.add(p)
     
 def main():
-    global chx1,chx2,chx
+    global chx1,chx2,chx,bullet_flag
     pygame.init()
     size = [SCREEN_WIDTH, SCREEN_HEIGHT]
     s = pygame.display.set_mode(size)
@@ -131,6 +133,10 @@ def main():
                     player.go_right()
                 if event.key == pygame.K_UP:
                     player.jump()
+                if event.key == pygame.K_SPACE:
+                    bullet_flag = 1
+
+                
         
  
             if event.type == pygame.KEYUP:
@@ -163,6 +169,15 @@ def main():
         s.blit(b1,(chx1,-1000))
         s.blit(b2,(chx2,-1000))
         active_sprite_list.draw(s)
+        if bullet_flag==1:
+            s.blit(bullet,(bulletx,300))
+            bulletx+=10
+        else:
+            bulletx=player.rect.right
+        if bulletx>SCREEN_WIDTH:
+            bullet_flag=0
+            
+        
         
  
         # Go ahead and update the screen with what we've drawn.
